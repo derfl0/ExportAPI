@@ -1,0 +1,8 @@
+pluginname=ExportAPI
+pluginclassname=ExportAPI
+origin=intelec
+version=0.1a
+description=Vereinfachtes Export Interface
+studipMinVersion=2.2
+dbscheme=db/install.sql
+uninstalldbscheme=db/uninstall.sql
