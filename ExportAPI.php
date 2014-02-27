@@ -17,6 +17,7 @@ class ExportAPI extends StudIPPlugin implements SystemPlugin {
     }
 
     public function initialize() {
+        
     }
 
     public function perform($unconsumed_path) {
@@ -27,19 +28,16 @@ class ExportAPI extends StudIPPlugin implements SystemPlugin {
         $dispatcher->plugin = $this;
         $dispatcher->dispatch($unconsumed_path);
     }
-    
+
     public static function link($template, $plugin = null, $path = null) {
-        return PluginEngine::getURL(__CLASS__, array('plugin' => $plugin, 'path' => $path), "export");
+        return PluginEngine::getURL(__CLASS__, array('plugin' => $plugin, 'path' => $path), "export/export/$template");
     }
 
     private function setupAutoload() {
-        if (class_exists("StudipAutoloader")) {
-            StudipAutoloader::addAutoloadPath(__DIR__ . '/lib');
-            StudipAutoloader::addAutoloadPath(__DIR__ . '/models');
-        } else {
-            spl_autoload_register(function ($class) {
-                        include_once __DIR__ . $class . '.php';
-                    });
-        }
+        StudipAutoloader::addAutoloadPath(__DIR__ . '/lib');
+        StudipAutoloader::addAutoloadPath(__DIR__ . '/models');
+        StudipAutoloader::addAutoloadPath(__DIR__ . '/lib/elements');
+        StudipAutoloader::addAutoloadPath(__DIR__ . '/lib/formats');
     }
+
 }

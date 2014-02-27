@@ -85,8 +85,10 @@ class exportTable extends ExportElement {
     public function getFromSQL($sql) {
         $db = DBManager::get();
         $result = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        $this->header = array_keys($result[0]);
-        $this->content = $result;
+        if ($result[0]) {
+            $this->header = array_keys($result[0]);
+            $this->content = $result;
+        }
     }
 
     /**

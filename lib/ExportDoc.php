@@ -117,8 +117,28 @@ class ExportDoc extends SimpleORMap {
     public function loadTemplate($args) {
         $this->template = array_shift($args);
         $this->params = array_merge($args, Request::getArray('param'));
-        $filename = dirname(__DIR__) . '/templates/' . $this->template . '.xml';
 
+        // Calculate directory
+        if ($pluginname = Request::get('plugin')) {
+            
+            $plugin = PluginEngine::getPlugin($pluginname);
+            
+            $dir = dirname($GLOBALS['ABSOLUTE_PATH_STUDIP'])."/public/".$plugin->getPluginPath();
+            $dir = strtok($dir, "?");
+
+            // Add path if needed
+            if ($path = Request::get('path')) {
+                $dir .= $path;
+            } else {
+                $dir .= '/export_templates';
+            }
+            
+        } else {
+            $dir = dirname(__DIR__);
+        }
+
+        $filename = $dir . '/' . $this->template . '.xml';
+        
         // check if file exists and is well formed xml
         if (!file_exists($filename) || !$tmp = simplexml_load_file($filename)) {
             throw new Exception(_('Template nicht gefunden'));
