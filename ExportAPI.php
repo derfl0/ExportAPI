@@ -30,7 +30,8 @@ class ExportAPI extends StudIPPlugin implements SystemPlugin {
     }
 
     public static function link($template, $plugin = null, $path = null) {
-        return PluginEngine::getURL(__CLASS__, array('plugin' => $plugin, 'path' => $path), "export/export/$template");
+        PageLayout::addScript(PluginEngine::getPlugin(__CLASS__)->getPluginURL()."/assets/application.js");
+        return PluginEngine::getURL(__CLASS__, array('plugin' => $plugin, 'path' => $path), "export/index/$template");
     }
 
     private function setupAutoload() {

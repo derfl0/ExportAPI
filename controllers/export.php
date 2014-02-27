@@ -23,7 +23,12 @@ class ExportController extends StudipController {
         PageLayout::setTitle(_('Export'));
         
         // Load the default layout
+        if (Request::isXhr()) {
+           $this->set_layout(null); 
+           $this->set_content_type('text/html;Charset=windows-1252');
+        } else {
         $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
+        }
 
         // Create argstring to forward
         foreach ($args as $arg) {
