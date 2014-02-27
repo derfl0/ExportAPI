@@ -202,9 +202,11 @@ class exportTable extends ExportElement {
         foreach ($this->header as $header) {
             $preview .= "<th>";
             if ($this->isEditable()) {
-                $preview .= "<input type='checkbox' name='edit[$elementNo][]' checked='checked' value='$header'>";
+                $preview .= "<label><input type='checkbox' name='edit[$elementNo][]' checked='checked' value='$header'>$header</label>";
+            } else {
+                $preview .= $header;
             }
-            $preview .= "$header</th>";
+            $preview .= "</th>";
         }
         $preview .= "</tr></thead>";
 
