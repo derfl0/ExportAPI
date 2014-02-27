@@ -23,31 +23,37 @@
             </a><br />
         <? endforeach; ?>
     </fieldset>
-    
+
     <? if ($templating): ?>
-    <fieldset id="create_new_template">
-        <legend><?= _("Neue Vorlagen anlegen") ?></legend>
-        <label>Format
-            <select name="format">
-                <? foreach ($formats as $format): ?>
-                    <option><?= $format ?></option>
+        <fieldset id="create_new_template">
+            <legend><?= _("Neue Vorlagen anlegen") ?></legend>
+            <label>Format
+                <select name="format">
+                    <? foreach ($formats as $format): ?>
+                        <option><?= $format ?></option>
+                    <? endforeach; ?>
+                </select>
+            </label>
+            <label><?= _('Vorlagenname') ?>
+                <input type="text" name="templatename" placeholder="<?= _('Vorlagenname') ?>">
+            </label>
+
+            <fieldset>
+                <legend><?= _("Anpassbare Elemente") ?></legend>
+                <? foreach ($preview as $pref): ?>
+                    <?= $pref ?>
                 <? endforeach; ?>
-            </select>
-        </label>
-        <label><?= _('Vorlagenname') ?>
-            <input type="text" name="templatename" placeholder="<?= _('Vorlagenname') ?>">
-        </label>
+            </fieldset>
 
-        <fieldset>
-            <legend><?= _("Anpassbare Elemente") ?></legend>
-            <? foreach ($preview as $pref): ?>
-                <?= $pref ?>
-            <? endforeach; ?>
+            <input type="hidden" name="args" value='<?= $flash['args'] ?>'></input>
+            <?= \Studip\Button::create(_("Anlegen"), 'create') ?>
         </fieldset>
-
-        <input type="hidden" name="args" value='<?= $flash['args'] ?>'></input>
-        <?= \Studip\Button::create(_("Anlegen"), 'create') ?>
-    </fieldset>
     <? endif; ?>
+
+    <? if (Request::get('plugin')): ?>
+        <input type="hidden" name="plugin" value="<? Request::get('plugin') ?>">
+        <input type="hidden" name="path" value="<? Request::get('path') ?>">
+    <? endif; ?>
+
 
 </form>

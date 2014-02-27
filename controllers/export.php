@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ExportController - Interface to chose export format or create modified
  * templates
@@ -13,7 +14,6 @@
  * @category    Stud.IP
  * @since       3.0
  */
-
 class ExportController extends StudipController {
 
     function before_filter(&$action, &$args) {
@@ -21,13 +21,13 @@ class ExportController extends StudipController {
 
         // Set the title of the page
         PageLayout::setTitle(_('Export'));
-        
+
         // Load the default layout
         if (Request::isXhr()) {
-           $this->set_layout(null); 
-           $this->set_content_type('text/html;Charset=windows-1252');
+            $this->set_layout(null);
+            $this->set_content_type('text/html;Charset=windows-1252');
         } else {
-        $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
+            $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
 
         // Create argstring to forward
@@ -104,7 +104,7 @@ class ExportController extends StudipController {
         $export->export();
         $this->render_nothing();
     }
-    
+
     /**
      * Action to remove a template
      */
@@ -112,6 +112,23 @@ class ExportController extends StudipController {
         $export = new exportDoc($id);
         $export->delete();
         $this->redirect("export/index/" . join("/", array_slice(func_get_args(), 1)));
+    }
+
+    // customized #url_for for plugins
+    function url_for($to) {
+        $args = func_get_args();
+
+        # find params
+        $params = array();
+        if (is_array(end($args))) {
+            $params = array_pop($args);
+        }
+
+        # urlencode all but the first argument
+        $args = array_map("urlencode", $args);
+        $args[0] = $to;
+
+        return PluginEngine::getURL($this->dispatcher->plugin, $params, join("/", $args));
     }
 
 }

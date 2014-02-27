@@ -117,18 +117,24 @@ class ExportDoc extends SimpleORMap {
     public function loadTemplate($args) {
         $this->template = array_shift($args);
         $this->params = array_merge($args, Request::getArray('param'));
+        
+        // Set pluginexport if send in request
+        if (Request::get('plugin')) {
+            $this->plugin =  Request::get('plugin');
+            $this->path = Request::get('path');
+        }
 
         // Calculate directory
-        if ($pluginname = Request::get('plugin')) {
+        if ($this->plugin) {
             
-            $plugin = PluginEngine::getPlugin($pluginname);
+            $plugin = PluginEngine::getPlugin($this->plugin);
             
             $dir = dirname($GLOBALS['ABSOLUTE_PATH_STUDIP'])."/public/".$plugin->getPluginPath();
             $dir = strtok($dir, "?");
 
             // Add path if needed
-            if ($path = Request::get('path')) {
-                $dir .= $path;
+            if ($this->path) {
+                $dir .= $this->path;
             } else {
                 $dir .= '/export_templates';
             }
