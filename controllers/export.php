@@ -40,12 +40,12 @@ class ExportController extends StudipController {
      * Basic export controller to work on a template
      */
     function index_action() {
-
+        
         // Check if a template was given
         if (!func_num_args()) {
             throw new Exception(_('Kein Template angegeben'));
         }
-
+        
         // Save new template if requested
         if (Request::submitted('create')) {
             $save = new exportDoc();
@@ -64,7 +64,7 @@ class ExportController extends StudipController {
         if ($export->isEditable()) {
             $this->templates = array();
             foreach ($export->getSavedTemplates() as $template) {
-                $tmp['delete'] = $this->url_for("export/removeTemplate/" . $template->id . $this->argstring);
+                $tmp['delete'] = $this->url_for("export/removeTemplate/" . $template->id . $this->argstring, $this->pluginParams());
                 $tmp['export'] = $this->url_for("export/exportTemplate", $template->id);
                 $tmp['name'] = $template->name;
                 $tmp['format'] = $template->format;
@@ -111,7 +111,7 @@ class ExportController extends StudipController {
     function removeTemplate_action($id) {
         $export = new exportDoc($id);
         $export->delete();
-        $this->redirect("export/index/" . join("/", array_slice(func_get_args(), 1)));
+        $this->redirect("export/index/" . join("/", array_slice(func_get_args(), 1))."?plugin=".Request::get('plugin')."&path=".Request::get('path'));
     }
 
     // customized #url_for for plugins
@@ -129,6 +129,10 @@ class ExportController extends StudipController {
         $args[0] = $to;
 
         return PluginEngine::getURL($this->dispatcher->plugin, $params, join("/", $args));
+    }
+    
+    private function pluginParams() {
+        return array("plugin" => Request::get('plugin'), "path" => Request::get('path'));
     }
 
 }

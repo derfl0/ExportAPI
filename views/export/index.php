@@ -1,4 +1,4 @@
-<form class="studip_form" method="POST">
+<form class="studip_form" action="<?= $controller->url_for('export/index'.$controller->argstring) ?>" method="POST">
 
     <? if ($templates): ?>
         <fieldset id="saved_templates">
@@ -8,7 +8,7 @@
                     <?= Assets::img("icons/16/blue/export/file.png") ?>
                     <?= htmlReady($template['name']) ?>
                 </a>
-                <a href='<?= $template['delete'] ?>' ><?= Assets::img('icons/12/blue/decline.png') ?></a>
+                <a class="stay_on_dialog" href='<?= $template['delete'] ?>' ><?= Assets::img('icons/12/blue/decline.png') ?></a>
                 <br />
             <? endforeach; ?> 
         </fieldset>
@@ -46,13 +46,13 @@
             </fieldset>
 
             <input type="hidden" name="args" value='<?= $flash['args'] ?>'></input>
-            <?= \Studip\Button::create(_("Anlegen"), 'create') ?>
+            <?= \Studip\Button::create(_("Anlegen"), 'create', array("class" => "stay_on_dialog")) ?>
         </fieldset>
     <? endif; ?>
 
     <? if (Request::get('plugin')): ?>
-        <input type="hidden" name="plugin" value="<? Request::get('plugin') ?>">
-        <input type="hidden" name="path" value="<? Request::get('path') ?>">
+        <input type="hidden" name="plugin" value="<?= Request::get('plugin') ?>">
+        <input type="hidden" name="path" value="<?= Request::get('path') ?>">
     <? endif; ?>
 
 

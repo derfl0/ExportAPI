@@ -24,7 +24,7 @@ class ExportXLS {
      * Routine starts
      */
     public function start() {
-        require_once $GLOBALS['BASE_URI_STUDIP'] . 'vendor/PHPExcel/PHPExcel.php';
+        require_once  dirname(dirname(__DIR__)) .'/vendor/PHPExcel/PHPExcel.php';
         $this->workbook = new PHPExcel();
         $this->worksheet = $this->workbook->getActiveSheet();
     }
