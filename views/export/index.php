@@ -4,7 +4,7 @@
         <fieldset id="saved_templates">
             <legend><?= _("Vorlagen") ?></legend>
             <? foreach ($templates as $template): ?>
-                <a href="<?= $template['export'] ?>">
+                <a class="close" href="<?= $template['export'] ?>">
                     <?= Assets::img("icons/16/blue/export/file.png") ?>
                     <?= htmlReady($template['name']) ?>
                 </a>
@@ -17,7 +17,7 @@
     <fieldset id="export_as">
         <legend><?= _("Exportieren als") ?></legend>
         <? foreach ($formats as $format): ?>
-            <a href="<?= $exportlink[$format] ?>">
+            <a class='close' href="<?= $exportlink[$format] ?>">
                 <?= Assets::img("icons/16/blue/file-" . $format . ".png") ?>
                 <?= $format ?>
             </a><br />

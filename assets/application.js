@@ -92,7 +92,6 @@ STUDIP.modalDialog = {
             $(this).attr('disabled', 'true');
             e.preventDefault();
             $.ajax({
-                type: "POST",
                 url: $(this).attr('href'),
                 success: function(data)
                 {
@@ -100,6 +99,9 @@ STUDIP.modalDialog = {
                     STUDIP.modalDialog.load(dialog);
                 }
             });
+        });
+        dialog.find('a.close').click(function(e) {
+           dialog.remove(); 
         });
         dialog.dialog({position: 'center'});
     }

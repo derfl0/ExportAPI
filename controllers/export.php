@@ -34,6 +34,10 @@ class ExportController extends StudipController {
         foreach ($args as $arg) {
             $this->argstring .= "/$arg";
         }
+        
+        // Bind pluginid and pluginpath
+        URLHelper::bindLinkParam('plugin', $null);
+        URLHelper::bindLinkParam('path', $null2);
     }
 
     /**
@@ -65,7 +69,7 @@ class ExportController extends StudipController {
             $this->templates = array();
             foreach ($export->getSavedTemplates() as $template) {
                 $tmp['delete'] = $this->url_for("export/removeTemplate/" . $template->id . $this->argstring, $this->pluginParams());
-                $tmp['export'] = $this->url_for("export/exportTemplate", $template->id);
+                $tmp['export'] = $this->url_for("export/exportTemplate", $template->id . $this->argstring, $this->pluginParams());
                 $tmp['name'] = $template->name;
                 $tmp['format'] = $template->format;
                 $this->templates[] = $tmp;
@@ -134,7 +138,5 @@ class ExportController extends StudipController {
     private function pluginParams() {
         return array("plugin" => Request::get('plugin'), "path" => Request::get('path'));
     }
-
+    
 }
-
-?>
