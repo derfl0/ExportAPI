@@ -69,7 +69,7 @@ class ExportController extends StudipController {
             $this->templates = array();
             foreach ($export->getSavedTemplates() as $template) {
                 $tmp['delete'] = $this->url_for("export/removeTemplate/" . $template->id . $this->argstring, $this->pluginParams());
-                $tmp['export'] = $this->url_for("export/exportTemplate", $template->id . $this->argstring, $this->pluginParams());
+                $tmp['export'] = $this->url_for("export/exportTemplate", $template->id);
                 $tmp['name'] = $template->name;
                 $tmp['format'] = $template->format;
                 $this->templates[] = $tmp;
